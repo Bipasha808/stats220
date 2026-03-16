@@ -14,7 +14,7 @@
 
 ![](https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyMG1zMG5jYW5jdzRlYWFmdGN6MWY0b2h5YzV3cml4OG00Z3gwZGlnOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/QMHoU66sBXqqLqYvGO/source.gif)
 
-<b> current hyperfixations: </b>
+**current hyperfixations:**
 
 1. hue matching games like [Color](https://color.method.ac) and [Dialed.](https://dialed.gg)
 2. listening to [Let The World Burn](https://open.spotify.com/track/1De425SCFJULIHbcmeebUw?si=4c0b869aadff4816) by Chris Grey and [Fairytale](https://open.spotify.com/track/6NgYIETQ8U72CVfkzYhK30?si=eed5d120bb7546d4) by Alexander Rybak on repeat
