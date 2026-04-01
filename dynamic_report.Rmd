@@ -11,66 +11,91 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```{css}
 
 body {
-  background: linear-gradient(to bottom, #ccffcc, #ffffff);
+  background: #f5f7f6;
   font-family: "Helvetica Neue", sans-serif;
-  color: #333;
+  color: #2f3e3a;
   padding: 20px;
 }
 
 h1 {
   color: #ffffff;
-  font-family: "Georgia", serif;
-  font-weight: bold;
+  background-color: #2f6f62; /* foam sea green */
+  padding: 18px;
   text-align: center;
-  background-color: #99cc00;
-  padding: 15px;
-  border-radius: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  letter-spacing: 1px;
 }
 
 h2 {
   color: #ffffff;
-  font-family: "Georgia", serif;
-  font-weight: bold;
-  background-color: #ccff00;
-  padding: 10px;
-  border-radius: 12px;
+  background-color: #4f7f6f; /* moss green */
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-top: 30px;
 }
 
 h3 {
-  color: #99cc00;
-  font-family: "Georgia", serif;
-  font-weight: bold;
+  color: #2f6f62;
+  font-weight: 600;
 }
 
 p {
-  color: #444;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
+  color: #394744;
 }
 
 li {
-  font-size: 18px;
+  font-size: 16px;
+}
+
+.section {
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  border-left: 5px solid #4f7f6f;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
 }
 
 img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  border-radius: 15px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  margin-top: 15px;
+  margin-top: 20px;
   margin-bottom: 20px;
+  border-radius: 4px;
 }
 
-.section {
-  background-color: #ffffffcc;
-  padding: 15px;
-  border-radius: 15px;
-  margin-bottom: 20px;
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
 }
+
+th {
+  background-color: #2f6f62;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f1f4f3;
+}
+
 ```
 
-# Summary
+# Location Summary
+
+The dataset shows fuel prices collected across different Auckland locations.
 
 ```{r}
 library("tidyverse")
@@ -89,12 +114,18 @@ logged_data <- logged_data %>%
 
 # Location and Time data #
 
-logged_data$`Location`
-
 logged_data %>%
   ggplot(aes(x = `Location`)) +
   geom_bar() +
-  theme_minimal()
+  theme_minimal() +
+  labs(
+    title = "Frequency of passing Locations",
+    x = "Locations",
+    y = "Count"
+  )
+
+
+
 
 # Unleaded 91 data
 
@@ -102,12 +133,158 @@ unleaded_91 <- logged_data$`Unleaded 91`
 average_91 <- sum(unleaded_91) / length(unleaded_91)
 average_91 <- round(average_91, 2)
 
+# Summary values for Unleaded 91
+min_91 <- min(logged_data$`Unleaded 91`, na.rm = TRUE)
+max_91 <- max(logged_data$`Unleaded 91`, na.rm = TRUE)
+avg_91 <- round(mean(logged_data$`Unleaded 91`, na.rm = TRUE), 2)
+
+```
+
+# Summary of Unleaded 91 Prices
+
+The distribution of Unleaded 91 prices shows that the **minimum price** is $`r min_91`, the **maximum price** is $`r max_91`, and the **average price** is $`r avg_91`. This indicates that prices are fairly consistent across locations.
+
+
+```{r}
 # bar graph of Unleaded 91 prices
 logged_data %>%
-  ggplot(aes(x = `Unleaded 91`)) +
+  ggplot(aes(x = factor(`Unleaded 91`))) +
   geom_bar(fill = "darkolivegreen") +
-  theme_minimal()
+  theme_minimal() +
+  labs(
+    title = "Unleaded 91 Price Distribution",
+    x = "Unleaded 91 Price",
+    y = "Count"
+  )
 
+
+# Premium 95 data
+
+premium_95 <- logged_data$`Premium 95`
+filtered_95 <- premium_95[!is.na(premium_95)]
+average_95 <- sum(premium_95, na.rm = TRUE) / length(filtered_95)
+average_95 <- round(average_95, 2)
+
+# Summary values for Premium 95
+min_95 <- min(logged_data$`Premium 95`, na.rm = TRUE)
+max_95 <- max(logged_data$`Premium 95`, na.rm = TRUE)
+avg_95 <- round(mean(logged_data$`Premium 95`, na.rm = TRUE), 2)
+
+```
+
+
+# Summary of Premium 95 Prices
+
+The distribution of Premium 95 prices shows that the **minimum price** is $`r min_95`, the **maximum price** is $`r max_95`, and the **average price** is $`r avg_95`. This suggests that Premium 95 prices are slightly higher than Unleaded 91 but remain fairly consistent across locations.
+
+```{r}
+
+# Summary of Premium 95 Prices
+
+logged_data %>%
+  ggplot(aes(x = `Premium 95`)) +
+  geom_bar(fill = "palegreen3") +
+  theme_minimal() +
+  labs(
+    title = "Premium 95 Price Distribution",
+    x = "Premium 95 Price",
+    y = "Count"
+  )
+
+
+# Premium 98 data
+
+premium_98 <- logged_data$`Premium 98`
+filtered_98 <- premium_98[!is.na(premium_98)]
+average_98 <- sum(premium_98, na.rm = TRUE) / length(filtered_98)
+average_98 <- round(average_98, 2)
+
+# Summary values for Premium 98
+min_98 <- min(logged_data$`Premium 98`, na.rm = TRUE)
+max_98 <- max(logged_data$`Premium 98`, na.rm = TRUE)
+avg_98 <- round(mean(logged_data$`Premium 98`, na.rm = TRUE), 2)
+
+```
+
+# Summary of Premium 98 Prices
+
+The distribution of Premium 98 prices shows that the **minimum price** is $`r min_98`, the **maximum price** is $`r max_98`, and the **average price** is $`r avg_98`. This suggests that Premium 98 prices are generally higher than other petrol kinds, but remain fairly similar across locations.
+
+```{r}
+
+logged_data %>%
+  ggplot(aes(x = `Premium 98`)) +
+  geom_bar(fill = "seagreen") +
+  theme_minimal() +
+  labs(
+    title = "Premium 98 Price Distribution",
+    x = "Premium 98 Price",
+    y = "Count"
+  )
+
+  
+# Overall data
+
+# Pivot data long for easy calculation
+fuel_long <- logged_data %>%
+  select(Location, `Unleaded 91`, `Premium 95`, `Premium 98`) %>%
+  pivot_longer(
+    cols = c(`Unleaded 91`, `Premium 95`, `Premium 98`),
+    names_to = "Fuel Type",
+    values_to = "Price"
+  )
+
+# Get min and max location for each fuel type
+fuel_summary <- fuel_long %>%
+  group_by(`Fuel Type`) %>%
+  summarise(
+    MinPrice = min(Price, na.rm = TRUE),
+    MaxPrice = max(Price, na.rm = TRUE),
+    MinLoc = Location[which.min(Price)],
+    MaxLoc = Location[which.max(Price)]
+  )
+
+```
+
+
+# Summary of Prices by Location
+
+```{r}
+
+logged_data %>%
+  select(Location, `Unleaded 91`, `Premium 95`, `Premium 98`) %>%
+  pivot_longer(
+    cols = c(`Unleaded 91`, `Premium 95`, `Premium 98`),
+    names_to = "Fuel Type",
+    values_to = "Price"
+  ) %>%
+  # filter and create graph from data
+  group_by(Location, `Fuel Type`) %>%
+  summarise(avg_price = mean(Price, na.rm = TRUE)) %>%
+  ggplot(aes(x = Location, y = avg_price, fill = `Fuel Type`)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.7) +
+  # calculate average prices
+  geom_text(aes(label = round(avg_price, 2)),
+            position = position_dodge(width = 0.8),
+            vjust = -0.3,
+            size = 3) +
+  # choose colours
+  scale_fill_manual(values = c(
+    "Unleaded 91" = "#4f7f6f",
+    "Premium 95" = "#2f6f62",
+    "Premium 98" = "#8faea3"
+  )) +
+  # add labels
+  labs(
+    title = "Average Petrol Prices by Location",
+    x = "Location",
+    y = "Average Price ($)",
+    fill = "Fuel Type"
+  ) +
+  # make labels easier to read
+  coord_cartesian(ylim = c(2.9, 4.1)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
