@@ -10,11 +10,67 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 
 ```{css}
 
+body {
+  background: linear-gradient(to bottom, #ccffcc, #ffffff);
+  font-family: "Helvetica Neue", sans-serif;
+  color: #333;
+  padding: 20px;
+}
+
+h1 {
+  color: #ffffff;
+  font-family: "Georgia", serif;
+  font-weight: bold;
+  text-align: center;
+  background-color: #99cc00;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+h2 {
+  color: #ffffff;
+  font-family: "Georgia", serif;
+  font-weight: bold;
+  background-color: #ccff00;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+h3 {
+  color: #99cc00;
+  font-family: "Georgia", serif;
+  font-weight: bold;
+}
+
+p {
+  color: #444;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+li {
+  font-size: 18px;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.section {
+  background-color: #ffffffcc;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
 ```
 
-## What's going on with this data?
-
-You need to change the contents of this Rmd! Replace the R code and markdown give below in this template document.
+# Summary
 
 ```{r}
 library("tidyverse")
@@ -31,7 +87,7 @@ logged_data <- logged_data %>%
     `Location` = `Where is the fuel station located? Only enter the suburb/town/district.`
   )
 
-# Location and Time data
+# Location and Time data #
 
 logged_data$`Location`
 
@@ -42,59 +98,16 @@ logged_data %>%
 
 # Unleaded 91 data
 
-logged_data$`Unleaded 91`
-
 unleaded_91 <- logged_data$`Unleaded 91`
-
 average_91 <- sum(unleaded_91) / length(unleaded_91)
-
 average_91 <- round(average_91, 2)
 
+# bar graph of Unleaded 91 prices
 logged_data %>%
   ggplot(aes(x = `Unleaded 91`)) +
-  geom_bar() +
+  geom_bar(fill = "darkolivegreen") +
   theme_minimal()
 
-# Premium 95 data
 
-logged_data$`Premium 95`
-
-premium_95 <- logged_data$`Premium 95`
-
-filtered_95 <- premium_95[!is.na(premium_95)]
-filtered_95
-
-average_95 <- sum(premium_95, na.rm = TRUE) / length(filtered_95)
-
-average_95 <- round(average_95, 2)
-
-logged_data %>%
-  ggplot(aes(x = `Premium 95`)) +
-  geom_bar() +
-  theme_minimal()
-
-# Premium 98 data
-
-logged_data$`Premium 98`
-
-premium_98 <- logged_data$`Premium 98`
-
-filtered_98 <- premium_98[!is.na(premium_98)]
-filtered_98
-
-average_98 <- sum(premium_98, na.rm = TRUE) / length(filtered_98)
-
-average_98 <- round(average_98, 2)
-
-logged_data %>%
-  ggplot(aes(x = `Premium 98`)) +
-  geom_bar() +
-  theme_minimal()
-
-# Overall data
-
-paste0("The average prices of fuel per litre is $", average_91, " for Unleaded 91, $",
-      average_95, " for Premium 95, and $", average_98, " for Premium 98.")
 ```
 
-![](https://c.tenor.com/-qBsG1HwR
